@@ -1,0 +1,62 @@
+@model Hospital_management_system.Models.HomeViewModel
+
+@{
+    ViewData["Title"] = "Hospital Appointment Portal";
+}
+
+<div class="text-center mb-4">
+    <h1 class="display-5">Hospital Appointment Portal</h1>
+    <p class="lead">Find a doctor and request a consultation.</p>
+</div>
+
+<section class="card shadow-sm mb-4">
+    <div class="card-body">
+        <h2 class="h4">Patient preferences</h2>
+        <form asp-action="SavePreferences" method="post" class="row g-3">
+            <div class="col-md-5">
+                <label for="patientName" class="form-label">Patient name</label>
+                <input id="patientName" name="patientName" value="@Model.PatientName" class="form-control" required />
+            </div>
+            <div class="col-md-5">
+                <label for="specialization" class="form-label">Selected specialization</label>
+                <input id="specialization" name="specialization" value="@Model.SelectedSpecialization" class="form-control" placeholder="For example, Cardiology" />
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">Save</button>
+            </div>
+        </form>
+    </div>
+</section>
+
+<h2>Doctors</h2>
+<div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
+    @foreach (var doctor in Model.Doctors)
+    {
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h3 class="h5">@doctor.DoctorName</h3>
+                    <p class="mb-1"><strong>Specialization:</strong> @doctor.Specialization</p>
+                    <p class="mb-1"><strong>Experience:</strong> @doctor.Experience years</p>
+                    <p><strong>Total charge:</strong> ₹@doctor.CalculateTotalCharge().ToString("N2")</p>
+                    <a asp-action="Details" asp-route-doctorId="@doctor.DoctorId" class="btn btn-outline-primary">View details</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<h2>Latest posts</h2>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr><th>ID</th><th>Title</th></tr>
+        </thead>
+        <tbody>
+            @foreach (var post in Model.Posts)
+            {
+                <tr><td>@post.Id</td><td>@post.Title</td></tr>
+            }
+        </tbody>
+    </table>
+</div>

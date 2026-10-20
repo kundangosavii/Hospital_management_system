@@ -1,0 +1,29 @@
+@model Hospital_management_system.Models.Doctor
+
+@{
+    ViewData["Title"] = "Doctor Details";
+}
+
+<h1>@Model.DoctorName</h1>
+@if (TempData["AppointmentMessage"] is string message)
+{
+    <div class="alert alert-success">@message</div>
+}
+
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <dl class="row mb-0">
+            <dt class="col-sm-4">Specialization</dt>
+            <dd class="col-sm-8">@Model.Specialization</dd>
+            <dt class="col-sm-4">Experience</dt>
+            <dd class="col-sm-8">@Model.Experience years</dd>
+            <dt class="col-sm-4">Consultation fee</dt>
+            <dd class="col-sm-8">₹@Model.ConsultationFee.ToString("N2")</dd>
+            <dt class="col-sm-4">Total charge (including ₹100 service charge)</dt>
+            <dd class="col-sm-8">₹@Model.CalculateTotalCharge().ToString("N2")</dd>
+        </dl>
+    </div>
+</div>
+
+<a asp-action="Appointment" asp-route-doctorId="@Model.DoctorId" class="btn btn-primary">Request an appointment</a>
+<a asp-action="Index" class="btn btn-secondary">Back to doctors</a>

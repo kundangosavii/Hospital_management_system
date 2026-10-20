@@ -1,0 +1,29 @@
+@model Hospital_management_system.Models.AppointmentViewModel
+
+@{
+    ViewData["Title"] = "Request Appointment";
+}
+
+<h1>Request an appointment</h1>
+<p class="lead">Appointment with @ViewData["DoctorName"]</p>
+
+<form asp-action="BookAppointment" method="post" class="col-md-8">
+    <input asp-for="DoctorId" type="hidden" />
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="mb-3">
+        <label asp-for="PatientName" class="form-label"></label>
+        <input asp-for="PatientName" value="@ViewData["PatientName"]" class="form-control" />
+        <span asp-validation-for="PatientName" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="AppointmentDate" class="form-label"></label>
+        <input asp-for="AppointmentDate" type="date" min="@DateTime.Today:yyyy-MM-dd" class="form-control" />
+        <span asp-validation-for="AppointmentDate" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Request appointment</button>
+    <a asp-action="Details" asp-route-doctorId="@Model.DoctorId" class="btn btn-secondary">Back to doctor</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
