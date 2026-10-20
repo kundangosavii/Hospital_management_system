@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Hospital_management_system.Models;
 
+// Contains the values submitted through the appointment form.
 public class AppointmentViewModel
 {
     [Required]

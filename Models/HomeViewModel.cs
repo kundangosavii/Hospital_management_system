@@ -1,5 +1,6 @@
 namespace Hospital_management_system.Models;
 
+// Contains all data displayed on the home page.
 public class HomeViewModel
 {
     public IReadOnlyList<Doctor> Doctors { get; set; } = [];

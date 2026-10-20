@@ -1,5 +1,6 @@
 namespace Hospital_management_system.Models;
 
+// Stores the details of a doctor.
 public class Doctor
 {
     public int DoctorId { get; set; }

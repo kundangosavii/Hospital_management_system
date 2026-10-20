@@ -20,15 +20,13 @@ public class HomeController : Controller
         _httpClientFactory = httpClientFactory;
     }
 
+    // Loads doctors, API posts, cookie data, and session data for the home page.
     public async Task<IActionResult> Index()
     {
-        var doctors = GetDoctors();
-        var posts = await GetPostsAsync();
-
         var viewModel = new HomeViewModel
         {
-            Doctors = doctors,
-            Posts = posts,
+            Doctors = GetDoctors(),
+            Posts = await GetPostsAsync(),
             PatientName = Request.Cookies[PatientNameCookie] ?? string.Empty,
             SelectedSpecialization = HttpContext.Session.GetString("specialization") ?? string.Empty
         };
@@ -36,6 +34,7 @@ public class HomeController : Controller
         return View(viewModel);
     }
 
+    // Saves the patient name in a cookie and specialization in session state.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult SavePreferences(string patientName, string specialization)
@@ -58,6 +57,7 @@ public class HomeController : Controller
         return RedirectToAction(nameof(Index));
     }
 
+    // Displays a cached doctor-details response selected by the query-string DoctorId.
     [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Any, NoStore = false)]
     public IActionResult Details(int doctorId)
     {
@@ -72,6 +72,7 @@ public class HomeController : Controller
         return View(doctor);
     }
 
+    // Displays the appointment form for the selected doctor.
     public IActionResult Appointment(int doctorId)
     {
         var doctor = GetDoctors().FirstOrDefault(d => d.DoctorId == doctorId);
@@ -85,6 +86,7 @@ public class HomeController : Controller
         return View(new AppointmentViewModel { DoctorId = doctor.DoctorId });
     }
 
+    // Validates and processes an appointment request submitted with a hidden DoctorId.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult BookAppointment(AppointmentViewModel appointment)
@@ -126,6 +128,7 @@ public class HomeController : Controller
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 
+    // Returns the doctor list from memory cache, expiring it after three minutes.
     private List<Doctor> GetDoctors()
     {
         return _cache.GetOrCreate(DoctorCacheKey, entry =>
@@ -140,6 +143,7 @@ public class HomeController : Controller
         }) ?? [];
     }
 
+    // Retrieves and deserializes posts asynchronously from JSONPlaceholder.
     private async Task<List<Post>> GetPostsAsync()
     {
         var client = _httpClientFactory.CreateClient();

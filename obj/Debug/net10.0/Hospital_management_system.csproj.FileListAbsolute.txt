@@ -95,3 +95,4 @@ C:\Hospital_management_system\obj\Debug\net10.0\refint\Hospital_management_syste
 C:\Hospital_management_system\obj\Debug\net10.0\Hospital_management_system.pdb
 C:\Hospital_management_system\obj\Debug\net10.0\Hospital_management_system.genruntimeconfig.cache
 C:\Hospital_management_system\obj\Debug\net10.0\ref\Hospital_management_system.dll
+C:\Hospital_management_system\obj\Debug\net10.0\Hospital_management_system.sourcelink.json
